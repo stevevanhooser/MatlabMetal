@@ -119,10 +119,10 @@ function MetalSetup = ConfigureMetalCallKernelSetup(device, funcName, kernel)
     MetalSetup.funcName = funcName;
     MetalSetup.kernel = kernel;
     
-    disp('Compiling library');
+    %disp('Compiling library');
     
     MetalSetup.Library = MetalLibrary(MetalSetup.Device, string(MetalSetup.kernel));  % Compile the library
-    assert(MetalSetup.Library.isValid);
+    assert(MetalSetup.Library.isValid,['Library compilation failed with message: ' char(MetalSetup.Library.message)]); 
     MetalSetup.Function = MetalFunction( MetalSetup.Library, string(MetalSetup.funcName)); % Create a Metal Function
     assert(MetalSetup.Function.isValid);
     MetalSetup.Cps = MetalComputePipelineState( MetalSetup.Device, MetalSetup.Function ); %Create the compute pipeline state
